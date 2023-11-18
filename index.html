@@ -21,6 +21,14 @@
             float: left; /* 標題左浮動 */
             width: 100%; /* 標題寬度 100% */
             margin-left: -200px; /* 將標題左邊距補回來 */
+        }
+/* 清除浮動 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
     </style>
 </head>
 
