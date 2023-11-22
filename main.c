@@ -267,7 +267,7 @@ void input(int in)//輸入系統
                             }
                             else if (language == 1)
                             {
-                                printf("\033[31m2(無歷史資料)\033[0m\n");
+                                printf("\033[31m錯誤2(無歷史資料)\033[0m\n");
                                 printf("\033[31m再次輸入\033[0m\n");
                             }
                             printf("\n");
