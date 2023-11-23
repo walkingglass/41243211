@@ -8,21 +8,25 @@
             border: 1px solid #000;
         }
     </style>
-    <title>Illusion Canvas</title>
+    <title>Animated Illusion Canvas</title>
 </head>
 <body>
-    <canvas id="illusionCanvas" width="400" height="400"></canvas>
+    <canvas id="animatedIllusionCanvas" width="400" height="400"></canvas>
 
     <script>
-        var canvas = document.getElementById('illusionCanvas');
+        var canvas = document.getElementById('animatedIllusionCanvas');
         var ctx = canvas.getContext('2d');
 
-        // 定義方形的初始位置和大小
+        // 初始位置和大小
         var rectX = 50;
         var rectY = 50;
         var rectSize = 100;
 
-        function drawIllusion() {
+        // 初始斜線位置
+        var lineX = rectX + rectSize;
+        var lineY = rectY;
+
+        function drawAnimatedIllusion() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // 繪製兩個相鄰的方形
@@ -32,21 +36,31 @@
 
             // 繪製連接兩個方形的斜線，製造錯視效果
             ctx.beginPath();
-            ctx.moveTo(rectX + rectSize, rectY);
+            ctx.moveTo(lineX, lineY);
             ctx.lineTo(rectX, rectY + rectSize);
             ctx.strokeStyle = '#000';
             ctx.stroke();
             ctx.closePath();
+
+            // 更新位置，創造動畫效果
+            rectX += 1;
+            lineX += 1;
+
+            // 循環動畫
+            if (rectX > canvas.width) {
+                rectX = -rectSize;
+                lineX = rectX + rectSize;
+            }
         }
 
         // 周期性地繪製動畫
-        function animateIllusion() {
-            drawIllusion();
-            requestAnimationFrame(animateIllusion);
+        function animateAnimatedIllusion() {
+            drawAnimatedIllusion();
+            requestAnimationFrame(animateAnimatedIllusion);
         }
 
         // 啟動動畫
-        animateIllusion();
+        animateAnimatedIllusion();
     </script>
 </body>
 </html>
