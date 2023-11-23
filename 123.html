@@ -8,58 +8,45 @@
             border: 1px solid #000;
         }
     </style>
-    <title>Canvas Animation</title>
+    <title>Illusion Canvas</title>
 </head>
 <body>
-    <canvas id="myCanvas" width="400" height="200"></canvas>
+    <canvas id="illusionCanvas" width="400" height="400"></canvas>
 
     <script>
-        // 獲取Canvas元素
-        var canvas = document.getElementById('myCanvas');
+        var canvas = document.getElementById('illusionCanvas');
         var ctx = canvas.getContext('2d');
 
-        // 定義初始位置
-        var x = 50;
-        var y = 50;
+        // 定義方形的初始位置和大小
+        var rectX = 50;
+        var rectY = 50;
+        var rectSize = 100;
 
-        // 定義速度
-        var dx = 23;
-        var dy = 37;
-
-        // 繪製圓形的函數
-        function draw() {
-            // 清空Canvas
+        function drawIllusion() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 繪製圓形
-            ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            // 繪製兩個相鄰的方形
             ctx.fillStyle = '#0095DD';
-            ctx.fill();
+            ctx.fillRect(rectX, rectY, rectSize, rectSize);
+            ctx.fillRect(rectX + rectSize, rectY, rectSize, rectSize);
+
+            // 繪製連接兩個方形的斜線，製造錯視效果
+            ctx.beginPath();
+            ctx.moveTo(rectX + rectSize, rectY);
+            ctx.lineTo(rectX, rectY + rectSize);
+            ctx.strokeStyle = '#000';
+            ctx.stroke();
             ctx.closePath();
-
-            // 更新位置
-            x += dx;
-            y += dy;
-
-            // 碰到邊界時改變方向
-            if (x + dx > canvas.width - 20 || x + dx < 20) {
-                dx = -dx;
-            }
-
-            if (y + dy > canvas.height - 20 || y + dy < 20) {
-                dy = -dy;
-            }
         }
 
         // 周期性地繪製動畫
-        function animate() {
-            draw();
-            requestAnimationFrame(animate);
+        function animateIllusion() {
+            drawIllusion();
+            requestAnimationFrame(animateIllusion);
         }
 
         // 啟動動畫
-        animate();
+        animateIllusion();
     </script>
 </body>
 </html>
