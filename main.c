@@ -81,6 +81,7 @@ void n16(void)
             printf("t+number         time+number       Is sent to the specified chessboard with history[number>1]  \n");
             printf("l+0              language+0        (0)English (1)Chinese                                       \n");
             printf("c+0              clear+0           Clear command                                               \n");
+            printf("r+number         rainbow+number    Rainbow (number is 0~6)                                     \n");
             printf("-----------------------------------------------------------------------------------------------\33[0m\n");
         }
         else if (language == 1) {
@@ -94,6 +95,7 @@ void n16(void)
             printf("t+number  time+number[number>1] 傳送至歷史有紀錄的指定棋盤       \n");
             printf("l+0       language+0            0英文 1中文                      \n");
             printf("c+0       clear+0               清除命令                         \n");
+            printf("r+number  rainbow+number        彩虹(數值給0~6)                  \n");
             printf("-----------------------------------------------------------------\33[0m\n");
         }
     }
@@ -220,6 +222,44 @@ void n16(void)
         if (language == 0)printf("\nLOCATION(letter+number):%c%d\n", letter, number);
         else if (language == 1)printf("\n棋子位置(字母+數字):%c%d\n", letter, number);
 
+    }
+    else if ((strcmp(cletter, "rainbow") == 0) || (strcmp(cletter, "r") == 0))
+    {
+        int color = 30 + cnumber;
+        for (int u=0;u<50;u++) 
+        {
+            system("cls"); // 清除终端
+            if (color < 40)color++;
+            else color = 30 + cnumber;
+            printf("\033[%dm", color);
+            system("cls");//清除終端
+            printf("╔══════════════════════════════════╗\n");
+            printf("║    ");
+            for (char alpha = 'A'; alpha <= 'O'; alpha++)//放置定位字母
+            {
+                checkerboard[alpha - 'A'][0] = alpha;
+                printf("%c ", checkerboard[alpha - 'A'][0]);
+            }
+            printf("║\n");
+            for (short int y = 1; y <= checkerboard_y - 1; y++)
+            {
+                checkerboard[0][y] = y;
+                printf("║ %2i ", checkerboard[0][y]);//放置定位數字
+
+                for (short int x = 1; x <= checkerboard_x - 1; x++)//放置旗子與空格
+                {
+                    if (color < 40)color++;
+                    else color = 30 + cnumber;
+                    printf("\033[%dm", color);
+                    if (checkerboard[x][y] == 0)printf("○");
+                    else if (checkerboard[x][y] == 1)printf("●");
+                    else printf("+ ");
+                }
+                printf("║\n");
+            }
+            printf("╚══════════════════════════════════╝\n");
+            Sleep(50);
+        }
     }
     else //錯誤報錯
     {
