@@ -76,7 +76,7 @@ void n16(void)
             printf("e+0              exit+0            (0)Exit command (1)Exit game                                \n");
             printf("H+0              help+0            Help                                                        \n");
             printf("h+0              history+0         Lists all historical chessboard records                     \n");
-            printf("h+number         history+number    Ls sent to the specified chessboard with history records    \n");
+            printf("h+number         history+number    Is sent to the specified chessboard with history records    \n");
             printf("t+0              time+0            List all historical chessboard records                      \n");
             printf("t+number         time+number       Is sent to the specified chessboard with history[number>1]  \n");
             printf("l+0              language+0        (0)English (1)Chinese                                       \n");
@@ -280,7 +280,7 @@ void n16(void)
 }
 void input(int in)//輸入系統
 {
-    if (Win == 0) {//沒勝負時
+    if (Win == 0) {//還沒勝負時
         if (player == 0)//顯示上次棋子與其位置和現在棋子
         {
             printf("●%s\n", location);
