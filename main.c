@@ -37,6 +37,11 @@ void show()//顯示棋盤
         {
             if (checkerboard[x][y] == 0)printf("○");
             else if (checkerboard[x][y] == 1)printf("●");
+            else if (x == 4 && y == 3 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+            else if (x == 4 && y == 12 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+            else if (x == 8 && y == 8 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+            else if (x == 12 && y == 3 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+            else if (x == 12 && y == 12 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
             else printf("+ ");
         }
         printf("║\n");
@@ -57,112 +62,178 @@ void show()//顯示棋盤
 
 void n16(void)
 {
-    if (language == 0)printf("\ncommand(letter+' '+number)(NULL->0):");
-    else if (language == 1)printf("\n命令(英文+' '+數字)(空->0):");
+    if (language == 0)printf("\n\33[1mcommand(letter+' '+number)(NULL->0):\33[0m");
+    else if (language == 1)printf("\n\33[1命令(英文+' '+數字)(空->0):\33[0m");
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);// 清除輸入緩衝區中的多餘字符
     scanf("%s %d", &cletter, &cnumber);
     if (strcmp(cletter, "help") == 0 || strcmp(cletter, "H") == 0)//指令列表
     {
-        printf("-------------------------\nhelp\n");
-        printf("{e+0}exit+0\n");
-        printf("{H+0}help+0\n");
-        printf("{h+0}history+0\n");
-        printf("{h+number}history+number\n");
-        printf("{t+0}time+0\n");
-        printf("{t+number}time+number[number>1]\n");
-        printf("{en+0}=english\n");
-        printf("{ch+0}=chinese\n");
-        system("pause");
-        n16();
-    }
-    else if ((strcmp(cletter, "history") == 0 && cnumber == 0) || (strcmp(cletter, "h") == 0 && cnumber == 0))//列出全部歷史輸入紀錄
-    {
-        printf("-------------------------\nHistory\n ");
-        for (int i = 0; i < history_flag; i++)
+        if (language == 0)
         {
-            printf("%d.%s\n ", i + 1, history[i]);
+            printf("\33[45m------------------------------------------------help-------------------------------------------\33[0m\n");
+            printf("\33[45m\33[32m\33[1mAbbreviated      Full command      Meaning                                                     \33[0m\33[45m\n");
+            printf("e+0              exit+0            (0)Exit command (1)Exit game                                \n");
+            printf("H+0              help+0            Help                                                        \n");
+            printf("h+0              history+0         Lists all historical chessboard records                     \n");
+            printf("h+number         history+number    Ls sent to the specified chessboard with history records    \n");
+            printf("t+0              time+0            List all historical chessboard records                      \n");
+            printf("t+number         time+number       Is sent to the specified chessboard with history[number>1]  \n");
+            printf("l+0              language+0        (0)English (1)Chinese                                       \n");
+            printf("c+0              clear+0           Clear command                                               \n");
+            printf("-----------------------------------------------------------------------------------------------\33[0m\n");
+        }
+        else if (language == 1) {
+            printf("\33[45m--------------------------------help-----------------------------\33[0m\n");
+            printf("\33[45m\33[32m\33[1m縮寫指令  完整指令              意思                             \33[0m\33[45m\n");
+            printf("e+0       exit+0                0離開命令 1離開遊戲              \n");
+            printf("H+0       help+0                幫助                             \n");
+            printf("h+0       history+0             列出全部歷史棋盤紀錄             \n");
+            printf("h+number  history+number        傳送至歷史有紀錄的指定棋盤       \n");
+            printf("t+0       time+0                列出全部歷史棋盤紀錄             \n");
+            printf("t+number  time+number[number>1] 傳送至歷史有紀錄的指定棋盤       \n");
+            printf("l+0       language+0            0英文 1中文                      \n");
+            printf("c+0       clear+0               清除命令                         \n");
+            printf("-----------------------------------------------------------------\33[0m\n");
         }
     }
-    else if ((strcmp(cletter, "time") == 0 && cnumber == 0) || (strcmp(cletter, "t") == 0 && cnumber == 0))//列出全部歷史棋盤紀錄
+
+    else if ((strcmp(cletter, "time") == 0) || (strcmp(cletter, "t") == 0))
     {
-        int i = 1;
-        while (i < history_num)  // 使用歷史數量控制迴圈
+        if (cnumber == 0)//列出全部歷史棋盤紀錄
         {
-            if (language == 0)printf("time location:%d\n", i);
-            else if (language == 1)printf("時間位置:%d\n", i);
-            printf("╔══════════════════════════════════╗\n");
-            printf("║    ");
-            for (char alpha = 'A'; alpha <= 'O'; alpha++)//放置定位字母
+            int i = 1;
+            while (i < history_num)  // 使用歷史數量控制迴圈
             {
-                checkerboard[alpha - 'A'][0] = alpha;
-                printf("%c ", checkerboard[alpha - 'A'][0]);
-            }
-            printf("║\n");
-
-            printf("║ %2i ", i + 1);  // 修正顯示的歷史棋盤數字
-
-            for (short int x = 1; x <= checkerboard_x - 1; x++)
-            {
-                for (short int y = 1; y <= checkerboard_y - 1; y++)
+                if (language == 0)printf("time location:%d\n", i);
+                else if (language == 1)printf("時間位置:%d\n", i);
+                printf("╔══════════════════════════════════╗\n");
+                printf("║    ");
+                for (char alpha = 'A'; alpha <= 'O'; alpha++)//放置定位字母
                 {
-                    if (checkerboard_history[y][x][i] == 0) printf("○");
-                    else if (checkerboard_history[y][x][i] == 1) printf("●");
-                    else printf("+ ");
+                    checkerboard[alpha - 'A'][0] = alpha;
+                    printf("%c ", checkerboard[alpha - 'A'][0]);
                 }
                 printf("║\n");
-                if (x < checkerboard_x - 1) printf("║ %2i ", x + 1);  // 修正顯示的歷史棋盤數字
-            }
-            printf("╚══════════════════════════════════╝\n");
-            i++;
-        }
-    }
-    else if ((strcmp(cletter, "time") == 0 && cnumber > 1) || (strcmp(cletter, "t") == 0 && cnumber > 1))//傳送至歷史有紀錄的指定棋盤
-    {
-        if (cnumber <= history_num + 1)
-        {
-            for (int i = 0; i < checkerboard_x; ++i) {
-                for (int j = 0; j < checkerboard_y; ++j) {
-                    checkerboard[i][j] = checkerboard_history[i][j][cnumber];
+
+                printf("║ %2i ", i + 1);  // 修正顯示的歷史棋盤數字
+
+                for (short int x = 1; x <= checkerboard_x - 1; x++)
+                {
+                    for (short int y = 1; y <= checkerboard_y - 1; y++)
+                    {
+                        if (checkerboard_history[y][x][i] == 0) printf("○");
+                        else if (checkerboard_history[y][x][i] == 1) printf("●");
+                        else if (x == 4 && y == 3 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+                        else if (x == 4 && y == 12 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+                        else if (x == 8 && y == 8 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+                        else if (x == 12 && y == 3 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+                        else if (x == 12 && y == 12 && checkerboard[x][y] == 2)printf("\33[32m\33[1m+ \33[0m");
+                        else printf("+ ");
+                    }
+                    printf("║\n");
+                    if (x < checkerboard_x - 1) printf("║ %2i ", x + 1);  // 修正顯示的歷史棋盤數字
                 }
+                printf("╚══════════════════════════════════╝\n");
+                i++;
             }
-            show();
-            input(1);
         }
-        else {//錯誤報錯
-            show();
-            if (language == 0) {
-                printf("\033[31mERROR7(non-existent future)\033[0m\n");
-                printf("\033[31mAGAIN\033[0m\n");
-            }
-            else if (language == 1)
+        else if (cnumber > 0)//傳送至歷史有紀錄的指定棋盤
+        {
+            if (cnumber <= history_num + 1)
             {
-                printf("\033[31m錯誤7(不存在的未來)\033[0m\n");
-                printf("\033[31m再次輸入\033[0m\n");
+                for (int i = 0; i < checkerboard_x; ++i) {
+                    for (int j = 0; j < checkerboard_y; ++j) {
+                        checkerboard[i][j] = checkerboard_history[i][j][cnumber];
+                    }
+                }
+                show();
+                input(1);
             }
-            printf("\n");
-            history_num--;
-            input(1);
+            else //錯誤報錯
+            {   
+                show();
+                if (language == 0) {
+                    printf("\033[31mERROR7(non-existent future)\033[0m\n");
+                    printf("\033[31mAGAIN\033[0m\n");
+                }
+                else if (language == 1)
+                {
+                    printf("\033[31m錯誤7(不存在的未來)\033[0m\n");
+                    printf("\033[31m再次輸入\033[0m\n");
+                }
+                printf("\n");
+                history_num--;
+                input(1);
+            }
         }
     }
-    else if ((strcmp(cletter, "history") == 0 && cnumber > 0) || (strcmp(cletter, "h") == 0 && cnumber > 0))//列出指定歷史輸入紀錄
+
+    else if ((strcmp(cletter, "history") == 0 ) || (strcmp(cletter, "h") == 0 ))
     {
-        printf("-------------------------\nHistory->%d\n ", cnumber);
-        printf("%d.%s\n ", cnumber, history[cnumber - 1]);
+        if (cnumber == 0)//列出全部歷史輸入紀錄
+        {
+            printf("-------------------------\nHistory\n ");
+            for (int i = 0; i < history_flag; i++)
+            {
+                printf("%d.%s\n ", i + 1, history[i]);
+            }
+        }
+        else if (cnumber > 0)//列出指定歷史輸入紀錄
+        {
+            printf("-------------------------\nHistory->%d\n ", cnumber);
+            printf("%d.%s\n ", cnumber, history[cnumber - 1]);
+        }
     }
-    else if (strcmp(cletter, "en"))//切換英文
+    else if (strcmp(cletter, "language") == 0 || strcmp(cletter, "l") == 0)//切換 0英文 1中文
     {
-        language = 1;
+        if (cnumber == 0)language = 0;
+        else if (cnumber == 1)language = 1;
     }
-    else if (strcmp(cletter, "ch"))//切換中文
+    else if (strcmp(cletter, "exit") == 0 || strcmp(cletter, "e") == 0)//離開
     {
-        language = 0;
+        if (cnumber == 0)//離開命令
+        {
+            show();
+            input(1);
+        }
+        else if (cnumber > 0)//離開遊戲
+        {
+            exit(0);
+        }
+
     }
-    if (strcmp(cletter, "exit") || strcmp(cletter, "e") == 0)//離開
+    else if ((strcmp(cletter, "clear") == 0) || (strcmp(cletter, "c") == 0))
     {
-        system("pause");
+        history_num--;
         show();
-        input(1);
+        if (player == 0)//顯示上次棋子與其位置和現在棋子
+        {
+            printf("●%s\n", location);
+            printf("○");
+        }
+        else if (player == 1)
+        {
+            printf("○%s\n", location);
+            printf("●");
+        }
+        if (language == 0)printf("\nLOCATION(letter+number):%c%d\n", letter, number);
+        else if (language == 1)printf("\n棋子位置(字母+數字):%c%d\n", letter, number);
+
+    }
+    else //錯誤報錯
+    {
+        if (language == 0) {
+        printf("\033[31mERROR8(non-existent command)\033[0m\n");
+        printf("\033[31mAGAIN\033[0m\n");
+        printf("\033[31mNeed help? Enter (help 0) or (H 0)\033[0m\n");
+    }
+        else if (language == 1)
+    {
+        printf("\033[31m錯誤8(不存在的命令)\033[0m\n");
+        printf("\033[31m再次輸入\033[0m\n");
+        printf("\033[31m需要幫助?輸入(help 0)或是(H 0)\033[0m\n");
+    }
     }
 
     n16();
@@ -243,7 +314,8 @@ void input(int in)//輸入系統
                                 show();
                                 input(1);
                             }
-                            else {//錯誤報錯
+                            else //錯誤報錯
+                            {    
                                 show();
                                 if (language == 0) {
                                     printf("\033[31mERROR1(NO history checkerboard)\033[0m\n");
@@ -259,7 +331,8 @@ void input(int in)//輸入系統
                                 input(1);
                             }
                         }
-                        else {//錯誤報錯
+                        else //錯誤報錯
+                        {    
                             show();
                             if (language == 0) {
                                 printf("\033[31mERROR2(NO history data)\033[0m\n");
@@ -283,7 +356,8 @@ void input(int in)//輸入系統
                         show();
                         judge(letter_num + 1, number);//判斷函式
                     }
-                    else {//錯誤報錯
+                    else //錯誤報錯
+                    {
                         show();
                         if (language == 0) {
                             printf("\033[31mERROR3(Enter a duplicate location)\033[0m\n");
@@ -299,15 +373,16 @@ void input(int in)//輸入系統
                         input(1);
                     }
                 }
-                else {//錯誤報錯
+                else //錯誤報錯
+                {
                     show();
                     if (language == 0) {
-                        printf("\033[31mERROR4(Number is too big)\033[0m\n");
+                        printf("\033[31mERROR4(Number is too big or too small)\033[0m\n");
                         printf("\033[31mAGAIN\033[0m\n");
                     }
                     else if (language == 1)
                     {
-                        printf("\033[31m錯誤4(數字太大)\033[0m\n");
+                        printf("\033[31m錯誤4(數字太大或太小)\033[0m\n");
                         printf("\033[31m再次輸入\033[0m\n");
                     }
                     printf("\n");
@@ -315,7 +390,8 @@ void input(int in)//輸入系統
                     input(1);
                 }
             }
-            else {//錯誤報錯
+            else //錯誤報錯
+            {
                 show();
                 if (language == 0) {
                     printf("\033[31mERROR5(Does not meet input requirements)\033[0m\n");
@@ -331,7 +407,8 @@ void input(int in)//輸入系統
                 input(1);
             }
         }
-        else {//錯誤報錯
+        else //錯誤報錯
+        {
             show();
             if (language == 0) {
                 printf("\033[31mERROR6(Enter wrong)\033[0m\n");
@@ -457,6 +534,7 @@ int judge(int x, int y)//判斷轉接站
 
     input(1);
 }
+
 int win(void)
 {
     if (language == 0) {
@@ -473,6 +551,7 @@ int win(void)
     system("pause");
     return 0;
 }
+
 void setConsoleFont(int width, int height, int fontWeight) {//設定字體
 
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);  // 取得標準輸出裝置的終端處理碼
@@ -487,7 +566,6 @@ void setConsoleFont(int width, int height, int fontWeight) {//設定字體
     fontInfo.FontWeight = fontWeight;                   // 設定字型的粗細
     SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);// 將新的字型資訊應用到終端
 }
-
 
 int main(void)
 {
@@ -504,7 +582,7 @@ int main(void)
 
     setConsoleFont(15, 30, FW_BOLD); // 設置粗字體大小 15x30
 
-    printf("<Gobang>\n\n\n");
+    printf("\33[5m<Gobang>\n\n\n");
     printf("Play chess on a 15*15 chessboard.\n\n");
     printf("The black chesses are placed first, and they are placed at empty spots on the board in turn.\n\n");
     printf("The first one to connect five or more chess pieces in any horizontal,\n vertical and diagonal direction wins.\n\n");
@@ -514,7 +592,7 @@ int main(void)
     printf("在15*15的棋盤上進行對弈。\n\n");
     printf("黑子先放，輪流下在棋盤空點處。\n\n");
     printf("先把五枚或以上棋相連成任何橫縱斜方向為勝。\n");
-    printf("輸入o16或O16可悔棋\n");
+    printf("輸入o16或O16可悔棋\33[0m\n");
     system("pause");
 
     for (short int y = 1; y <= checkerboard_y; y++) {// 初始設置全為空
