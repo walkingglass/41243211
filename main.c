@@ -153,7 +153,7 @@ void n16(void)
                 input(1);
             }
             else //錯誤報錯
-            {   
+            {
                 show();
                 if (language == 0) {
                     printf("\033[31mERROR7(non-existent future)\033[0m\n");
@@ -171,7 +171,7 @@ void n16(void)
         }
     }
 
-    else if ((strcmp(cletter, "history") == 0 ) || (strcmp(cletter, "h") == 0 ))
+    else if ((strcmp(cletter, "history") == 0) || (strcmp(cletter, "h") == 0))
     {
         if (cnumber == 0)//列出全部歷史輸入紀錄
         {
@@ -226,7 +226,7 @@ void n16(void)
     else if ((strcmp(cletter, "rainbow") == 0) || (strcmp(cletter, "r") == 0))
     {
         int color = 30 + cnumber;
-        for (int u=0;u<50;u++) 
+        for (int u = 0; u < 50; u++)
         {
             system("cls"); // 清除终端
             if (color < 40)color++;
@@ -264,16 +264,16 @@ void n16(void)
     else //錯誤報錯
     {
         if (language == 0) {
-        printf("\033[31mERROR8(non-existent command)\033[0m\n");
-        printf("\033[31mAGAIN\033[0m\n");
-        printf("\033[31mNeed help? Enter (help 0) or (H 0)\033[0m\n");
-    }
+            printf("\033[31mERROR8(non-existent command)\033[0m\n");
+            printf("\033[31mAGAIN\033[0m\n");
+            printf("\033[31mNeed help? Enter (help 0) or (H 0)\033[0m\n");
+        }
         else if (language == 1)
-    {
-        printf("\033[31m錯誤8(不存在的命令)\033[0m\n");
-        printf("\033[31m再次輸入\033[0m\n");
-        printf("\033[31m需要幫助?輸入(help 0)或是(H 0)\033[0m\n");
-    }
+        {
+            printf("\033[31m錯誤8(不存在的命令)\033[0m\n");
+            printf("\033[31m再次輸入\033[0m\n");
+            printf("\033[31m需要幫助?輸入(help 0)或是(H 0)\033[0m\n");
+        }
     }
 
     n16();
@@ -328,20 +328,28 @@ void input(int in)//輸入系統
                     {
                         if (history_flag > 2)
                         {
-                            if (history_num > 1)
+                            if (history_num > 2)
                             {
-                                for (int i = 0; i < checkerboard_x; ++i) {//回傳棋盤
-                                    for (int j = 0; j < checkerboard_y; ++j) {
-                                        checkerboard[i][j] = checkerboard_history[i][j][history_num - 2];
+                                if (first_o16 != 0) {
+                                    for (int i = 0; i < checkerboard_x; ++i) {
+                                        for (int j = 0; j < checkerboard_y; ++j) {
+                                            checkerboard[i][j] = checkerboard_history[i][j][history_num - 2];
+                                        }
                                     }
+                                    history_num -= 2; 
                                 }
-                                history_num -= 2;
-                                if (first_o16 == 0)
+                                else if (first_o16 == 0)
                                 {
-                                    history_num++;
+                                    for (int i = 0; i < checkerboard_x; ++i) {
+                                        for (int j = 0; j < checkerboard_y; ++j) {
+                                            checkerboard[i][j] = checkerboard_history[i][j][history_num - 1];
+                                        }
+                                    }
+                                    history_num--; 
                                     first_o16++;
                                 }
-                                if (history_num == 0)history_num = 1;//修正
+
+                                if (history_num == 0) history_num = 1;
 
                                 if (player == 1)
                                 {
@@ -354,8 +362,8 @@ void input(int in)//輸入系統
                                 show();
                                 input(1);
                             }
-                            else //錯誤報錯
-                            {    
+                            else
+                            {
                                 show();
                                 if (language == 0) {
                                     printf("\033[31mERROR1(NO history checkerboard)\033[0m\n");
@@ -367,12 +375,12 @@ void input(int in)//輸入系統
                                     printf("\033[31m再次輸入\033[0m\n");
                                 }
                                 printf("\n");
-                                history_num--;
+                                history_num--; // Decrementing when there is an error
                                 input(1);
                             }
                         }
-                        else //錯誤報錯
-                        {    
+                        else
+                        {
                             show();
                             if (language == 0) {
                                 printf("\033[31mERROR2(NO history data)\033[0m\n");
@@ -384,10 +392,11 @@ void input(int in)//輸入系統
                                 printf("\033[31m再次輸入\033[0m\n");
                             }
                             printf("\n");
-                            history_num--;
+                            history_num--; // Decrementing when there is an error
                             input(1);
                         }
                     }
+
                     else if (checkerboard[letter_num + 1][number] == 2)//如果當前輸入位置為空可下棋
                     {
                         if (player == 0)checkerboard[letter_num + 1][number] = 0;
