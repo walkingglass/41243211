@@ -13,7 +13,7 @@ void input(int);
 int checkerboard[checkerboard_x][checkerboard_y] = { 2 }, checkerboard_history[checkerboard_x][checkerboard_y][512] = { 2 };//棋盤 歷史棋盤(空2 黑0 白1 )
 int player = 0;                                                                     //玩家狀態(黑0 白1 )
 char letter, cletter[128] = { ' ' }, location[] = { ' ' }, history[2048][4] = { "" };     //輸入字元 指令字串 下子定位 輸入下子歷史列表
-int number, cnumber, Win = 0, history_flag = 0, history_num = 0, language = 0;              //輸入數字 指令數字 獲勝狀態 歷史列表旗標 歷史棋盤計數 語言
+int number, cnumber, Win = 0, history_list = 0, history_wave = 0, language = 0;              //輸入數字 指令數字 獲勝狀態 歷史列表旗標 歷史棋盤計數 語言
 int flag_0 = 0, flag_45 = 0, flag_90 = 0, flag_135 = 0;                             //當顆棋子的8方角度(共4個)
 int first_o16 = 0;
 
@@ -50,14 +50,14 @@ void show()//顯示棋盤
 
     for (int i = 0; i < checkerboard_x; ++i) {//備份棋盤
         for (int j = 0; j < checkerboard_y; ++j) {
-            checkerboard_history[i][j][history_num + 1] = checkerboard[i][j];
+            checkerboard_history[i][j][history_wave + 1] = checkerboard[i][j];
         }
     }
-    history_num++;
-    if (language == 0)printf("Time location:%d\n", history_num);
-    else if (language == 1)printf("時間位置:%d\n", history_num);
-    if (language == 0)printf("Number of entries:%d\n", history_flag);
-    else if (language == 1)printf("輸入次數:%d\n", history_flag);
+    history_wave++;
+    if (language == 0)printf("Time location:%d\n", history_wave);
+    else if (language == 1)printf("時間位置:%d\n", history_wave);
+    if (language == 0)printf("Number of entries:%d\n", history_list);
+    else if (language == 1)printf("輸入次數:%d\n", history_list);
 }
 
 void n16(void)
@@ -105,7 +105,7 @@ void n16(void)
         if (cnumber == 0)//列出全部歷史棋盤紀錄
         {
             int i = 1;
-            while (i < history_num)  // 使用歷史數量控制迴圈
+            while (i < history_wave)  // 使用歷史數量控制迴圈
             {
                 if (language == 0)printf("time location:%d\n", i);
                 else if (language == 1)printf("時間位置:%d\n", i);
@@ -142,7 +142,7 @@ void n16(void)
         }
         else if (cnumber > 0)//傳送至歷史有紀錄的指定棋盤
         {
-            if (cnumber <= history_num + 1)
+            if (cnumber <= history_wave + 1)
             {
                 for (int i = 0; i < checkerboard_x; ++i) {
                     for (int j = 0; j < checkerboard_y; ++j) {
@@ -165,7 +165,7 @@ void n16(void)
                     printf("\033[31m再次輸入\033[0m\n");
                 }
                 printf("\n");
-                history_num--;
+                history_wave--;
                 input(1);
             }
         }
@@ -176,7 +176,7 @@ void n16(void)
         if (cnumber == 0)//列出全部歷史輸入紀錄
         {
             printf("-------------------------\nHistory\n ");
-            for (int i = 0; i < history_flag; i++)
+            for (int i = 0; i < history_list; i++)
             {
                 printf("%d.%s\n ", i + 1, history[i]);
             }
@@ -207,7 +207,7 @@ void n16(void)
     }
     else if ((strcmp(cletter, "clear") == 0) || (strcmp(cletter, "c") == 0))
     {
-        history_num--;
+        history_wave--;
         show();
         if (player == 0)//顯示上次棋子與其位置和現在棋子
         {
@@ -302,8 +302,8 @@ void input(int in)//輸入系統
         if (scanf("%c%d", &letter, &number) == 2)
         {
             sprintf(location, "%c%d", letter, number);//以資料輸入
-            strcpy(history[history_flag], location);//複製至歷史輸入
-            history_flag++;
+            strcpy(history[history_list], location);//複製至歷史輸入
+            history_list++;
             if (((letter >= 'a' && letter <= 'o') || (letter >= 'A' && letter <= 'O')))//限制大小寫A到O
             {
                 if (letter >= 'a' && letter <= 'o')letter = toupper((unsigned char)letter);//小寫轉大寫
@@ -318,7 +318,7 @@ void input(int in)//輸入系統
                 {
                     if ((letter_num + 1) == 14 && number == 16)//n16,指令
                     {
-                        history_num--;
+                        history_wave--;
                         n16();
                         system("pause");
                         show();
@@ -326,30 +326,30 @@ void input(int in)//輸入系統
                     }
                     else if ((letter_num + 1) == 15 && number == 16)//o16,悔棋
                     {
-                        if (history_flag > 2)
+                        if (history_list > 2)
                         {
-                            if (history_num > 2)
+                            if (history_wave > 2)
                             {
                                 if (first_o16 != 0) {
                                     for (int i = 0; i < checkerboard_x; ++i) {
                                         for (int j = 0; j < checkerboard_y; ++j) {
-                                            checkerboard[i][j] = checkerboard_history[i][j][history_num - 2];
+                                            checkerboard[i][j] = checkerboard_history[i][j][history_wave - 2];
                                         }
                                     }
-                                    history_num -= 2; 
+                                    history_wave -= 2; 
                                 }
                                 else if (first_o16 == 0)
                                 {
                                     for (int i = 0; i < checkerboard_x; ++i) {
                                         for (int j = 0; j < checkerboard_y; ++j) {
-                                            checkerboard[i][j] = checkerboard_history[i][j][history_num - 1];
+                                            checkerboard[i][j] = checkerboard_history[i][j][history_wave - 1];
                                         }
                                     }
-                                    history_num--; 
+                                    history_wave--; 
                                     first_o16++;
                                 }
 
-                                if (history_num == 0) history_num = 1;
+                                if (history_wave == 0) history_wave = 1;
 
                                 if (player == 1)
                                 {
@@ -375,7 +375,7 @@ void input(int in)//輸入系統
                                     printf("\033[31m再次輸入\033[0m\n");
                                 }
                                 printf("\n");
-                                history_num--; // Decrementing when there is an error
+                                history_wave--; // Decrementing when there is an error
                                 input(1);
                             }
                         }
@@ -392,7 +392,7 @@ void input(int in)//輸入系統
                                 printf("\033[31m再次輸入\033[0m\n");
                             }
                             printf("\n");
-                            history_num--; // Decrementing when there is an error
+                            history_wave--; // Decrementing when there is an error
                             input(1);
                         }
                     }
@@ -418,7 +418,7 @@ void input(int in)//輸入系統
                             printf("\033[31m再次輸入\033[0m\n");
                         }
                         printf("\n");
-                        history_num--;
+                        history_wave--;
                         input(1);
                     }
                 }
@@ -435,7 +435,7 @@ void input(int in)//輸入系統
                         printf("\033[31m再次輸入\033[0m\n");
                     }
                     printf("\n");
-                    history_num--;
+                    history_wave--;
                     input(1);
                 }
             }
@@ -452,7 +452,7 @@ void input(int in)//輸入系統
                     printf("\033[31m再次輸入\033[0m\n");
                 }
                 printf("\n");
-                history_num--;
+                history_wave--;
                 input(1);
             }
         }
@@ -469,7 +469,7 @@ void input(int in)//輸入系統
                 printf("\033[31m再次輸入\033[0m\n");
             }
             printf("\n");
-            history_num--;
+            history_wave--;
             input(1);
         }
     }
