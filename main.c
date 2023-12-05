@@ -6,13 +6,14 @@
 
 #define checkerboard_x 16   //棋盤X軸
 #define checkerboard_y 16   //棋盤Y軸
+#define history_list_max 2048
 
 void n16(void);
 void input(int);
 
 int checkerboard[checkerboard_x][checkerboard_y] = { 2 }, checkerboard_history[checkerboard_x][checkerboard_y][512] = { 2 };//棋盤 歷史棋盤(空2 黑0 白1 )
 int player = 0;                                                                     //玩家狀態(黑0 白1 )
-char letter, cletter[128] = { ' ' }, location[] = { ' ' }, history[2048][4] = { "" };     //輸入字元 指令字串 下子定位 輸入下子歷史列表
+char letter, cletter[128] = { ' ' }, location[] = { ' ' }, history[history_list_max][4] = { "" };     //輸入字元 指令字串 下子定位 輸入下子歷史列表
 int number, cnumber, Win = 0, history_list = 0, history_wave = 0, language = 0;              //輸入數字 指令數字 獲勝狀態 歷史列表旗標 歷史棋盤計數 語言
 int flag_0 = 0, flag_45 = 0, flag_90 = 0, flag_135 = 0;                             //當顆棋子的8方角度(共4個)
 int first_o16 = 0;
@@ -56,8 +57,8 @@ void show()//顯示棋盤
     history_wave++;
     if (language == 0)printf("Wave:%d\n", history_wave);
     else if (language == 1)printf("回合:%d\n", history_wave);
-    if (language == 0)printf("Number of entries:%d\n", history_list);
-    else if (language == 1)printf("輸入次數:%d\n", history_list);
+    if (language == 0)printf("Number of entries:%d/%d\n", history_list,history_list_max);
+    else if (language == 1)printf("輸入次數:%d/%d\n", history_list,history_list_max);
 }
 
 void n16(void)
