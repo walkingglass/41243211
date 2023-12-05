@@ -13,8 +13,8 @@ void input(int);
 
 int checkerboard[checkerboard_x][checkerboard_y] = { 2 }, checkerboard_history[checkerboard_x][checkerboard_y][512] = { 2 };//棋盤 歷史棋盤(空2 黑0 白1 )
 int player = 0;                                                                     //玩家狀態(黑0 白1 )
-char letter, cletter[128] = { ' ' }, location[] = { ' ' }, history[history_list_max][4] = { "" };     //輸入字元 指令字串 下子定位 輸入下子歷史列表
-int number, cnumber, Win = 0, history_list = 0, history_wave = 0, language = 0;              //輸入數字 指令數字 獲勝狀態 歷史列表旗標 歷史棋盤計數 語言
+char letter, command_letter[128] = { ' ' }, location[] = { ' ' }, history[history_list_max][4] = { "" };     //輸入字元 指令字串 下子定位 輸入下子歷史列表
+int number, command_number, Win = 0, history_list = 0, history_wave = 0, language = 0;              //輸入數字 指令數字 獲勝狀態 歷史列表旗標 歷史棋盤計數 語言
 int flag_0 = 0, flag_45 = 0, flag_90 = 0, flag_135 = 0;                             //當顆棋子的8方角度(共4個)
 int first_o16 = 0;
 
@@ -67,8 +67,8 @@ void n16(void)
     else if (language == 1)printf("\n\33[1命令(英文+' '+數字)(空->0):\33[0m");
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);// 清除輸入緩衝區中的多餘字符
-    scanf("%s %d", &cletter, &cnumber);
-    if (strcmp(cletter, "help") == 0 || strcmp(cletter, "H") == 0)//指令列表
+    scanf("%s %d", &command_letter, &command_number);
+    if (strcmp(command_letter, "help") == 0 || strcmp(command_letter, "H") == 0)//指令列表
     {
         if (language == 0)
         {
@@ -101,9 +101,9 @@ void n16(void)
         }
     }
 
-    else if ((strcmp(cletter, "time") == 0) || (strcmp(cletter, "t") == 0))
+    else if ((strcmp(command_letter, "time") == 0) || (strcmp(command_letter, "t") == 0))
     {
-        if (cnumber == 0)//列出全部歷史棋盤紀錄
+        if (command_number == 0)//列出全部歷史棋盤紀錄
         {
             int i = 1;
             while (i < history_wave)  // 使用歷史數量控制迴圈
@@ -141,13 +141,13 @@ void n16(void)
                 i++;
             }
         }
-        else if (cnumber > 0)//傳送至歷史有紀錄的指定棋盤
+        else if (command_number > 0)//傳送至歷史有紀錄的指定棋盤
         {
-            if (cnumber <= history_wave + 1)
+            if (command_number <= history_wave + 1)
             {
                 for (int i = 0; i < checkerboard_x; ++i) {
                     for (int j = 0; j < checkerboard_y; ++j) {
-                        checkerboard[i][j] = checkerboard_history[i][j][cnumber];
+                        checkerboard[i][j] = checkerboard_history[i][j][command_number];
                     }
                 }
                 show();
@@ -172,9 +172,9 @@ void n16(void)
         }
     }
 
-    else if ((strcmp(cletter, "history") == 0) || (strcmp(cletter, "h") == 0))
+    else if ((strcmp(command_letter, "history") == 0) || (strcmp(command_letter, "h") == 0))
     {
-        if (cnumber == 0)//列出全部歷史輸入紀錄
+        if (command_number == 0)//列出全部歷史輸入紀錄
         {
             printf("-------------------------\nHistory\n ");
             for (int i = 0; i < history_list; i++)
@@ -182,31 +182,31 @@ void n16(void)
                 printf("%d.%s\n ", i + 1, history[i]);
             }
         }
-        else if (cnumber > 0)//列出指定歷史輸入紀錄
+        else if (command_number > 0)//列出指定歷史輸入紀錄
         {
-            printf("-------------------------\nHistory->%d\n ", cnumber);
-            printf("%d.%s\n ", cnumber, history[cnumber - 1]);
+            printf("-------------------------\nHistory->%d\n ", command_number);
+            printf("%d.%s\n ", command_number, history[command_number - 1]);
         }
     }
-    else if (strcmp(cletter, "language") == 0 || strcmp(cletter, "l") == 0)//切換 0英文 1中文
+    else if (strcmp(command_letter, "language") == 0 || strcmp(command_letter, "l") == 0)//切換 0英文 1中文
     {
-        if (cnumber == 0)language = 0;
-        else if (cnumber == 1)language = 1;
+        if (command_number == 0)language = 0;
+        else if (command_number == 1)language = 1;
     }
-    else if (strcmp(cletter, "exit") == 0 || strcmp(cletter, "e") == 0)//離開
+    else if (strcmp(command_letter, "exit") == 0 || strcmp(command_letter, "e") == 0)//離開
     {
-        if (cnumber == 0)//離開命令
+        if (command_number == 0)//離開命令
         {
             show();
             input(1);
         }
-        else if (cnumber > 0)//離開遊戲
+        else if (command_number > 0)//離開遊戲
         {
             exit(0);
         }
 
     }
-    else if ((strcmp(cletter, "clear") == 0) || (strcmp(cletter, "c") == 0))
+    else if ((strcmp(command_letter, "clear") == 0) || (strcmp(command_letter, "c") == 0))
     {
         history_wave--;
         show();
@@ -224,14 +224,14 @@ void n16(void)
         else if (language == 1)printf("\n棋子位置(字母+數字):%c%d\n", letter, number);
 
     }
-    else if ((strcmp(cletter, "rainbow") == 0) || (strcmp(cletter, "r") == 0))
+    else if ((strcmp(command_letter, "rainbow") == 0) || (strcmp(command_letter, "r") == 0))
     {
-        int color = 30 + cnumber;
+        int color = 30 + command_number;
         for (int u = 0; u < 50; u++)
         {
             system("cls"); // 清除终端
             if (color < 40)color++;
-            else color = 30 + cnumber;
+            else color = 30 + command_number;
             printf("\033[%dm", color);
             system("cls");//清除終端
             printf("╔══════════════════════════════════╗\n");
@@ -250,7 +250,7 @@ void n16(void)
                 for (short int x = 1; x <= checkerboard_x - 1; x++)//放置旗子與空格
                 {
                     if (color < 40)color++;
-                    else color = 30 + cnumber;
+                    else color = 30 + command_number;
                     printf("\033[%dm", color);
                     if (checkerboard[x][y] == 0)printf("○");
                     else if (checkerboard[x][y] == 1)printf("●");
