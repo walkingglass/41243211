@@ -6,10 +6,11 @@
 
 #define checkerboard_x 16   //棋盤X軸
 #define checkerboard_y 16   //棋盤Y軸
-#define history_list_max 2048
+#define history_list_max 2500
 
 void n16(void);
 void input(int);
+void printWithDelay(const char* str);
 
 int checkerboard[checkerboard_x][checkerboard_y] = { 2 }, checkerboard_history[checkerboard_x][checkerboard_y][512] = { 2 };//棋盤 歷史棋盤(空2 黑0 白1 )
 int player = 0;                                                                     //玩家狀態(黑0 白1 )
@@ -55,10 +56,16 @@ void show()//顯示棋盤
         }
     }
     history_wave++;
-    if (language == 0)printf("Wave:%d\n", history_wave);
-    else if (language == 1)printf("回合:%d\n", history_wave);
-    if (language == 0)printf("Number of entries:%d/%d\n", history_list,history_list_max);
-    else if (language == 1)printf("輸入次數:%d/%d\n", history_list,history_list_max);
+    if (language == 0)
+    {
+        printf("Wave:%d\n", history_wave);
+        printf("Number of entries:");
+    }
+    else if (language == 1){
+        printf("回合:%d\n", history_wave);
+        printf("輸入次數:");
+    }
+    printf("%d/%d(%.2f%%)\n", history_list, history_list_max, ((float)history_list / history_list_max) * 100);
 }
 
 void n16(void)
@@ -100,7 +107,6 @@ void n16(void)
             printf("-----------------------------------------------------------------\33[0m\n");
         }
     }
-
     else if ((strcmp(command_letter, "time") == 0) || (strcmp(command_letter, "t") == 0))
     {
         if (command_number == 0)//列出全部歷史棋盤紀錄
@@ -171,7 +177,6 @@ void n16(void)
             }
         }
     }
-
     else if ((strcmp(command_letter, "history") == 0) || (strcmp(command_letter, "h") == 0))
     {
         if (command_number == 0)//列出全部歷史輸入紀錄
@@ -279,6 +284,7 @@ void n16(void)
 
     n16();
 }
+
 void input(int in)//輸入系統
 {
     if (Win == 0) {//還沒勝負時
@@ -337,7 +343,7 @@ void input(int in)//輸入系統
                                             checkerboard[i][j] = checkerboard_history[i][j][history_wave - 2];
                                         }
                                     }
-                                    history_wave -= 2; 
+                                    history_wave -= 2;
                                 }
                                 else if (first_o16 == 0)
                                 {
@@ -346,7 +352,7 @@ void input(int in)//輸入系統
                                             checkerboard[i][j] = checkerboard_history[i][j][history_wave - 1];
                                         }
                                     }
-                                    history_wave--; 
+                                    history_wave--;
                                     first_o16++;
                                 }
 
@@ -376,7 +382,7 @@ void input(int in)//輸入系統
                                     printf("\033[31m再次輸入\033[0m\n");
                                 }
                                 printf("\n");
-                                history_wave--; // Decrementing when there is an error
+                                history_wave--; 
                                 input(1);
                             }
                         }
@@ -393,7 +399,7 @@ void input(int in)//輸入系統
                                 printf("\033[31m再次輸入\033[0m\n");
                             }
                             printf("\n");
-                            history_wave--; // Decrementing when there is an error
+                            history_wave--; 
                             input(1);
                         }
                     }
@@ -617,6 +623,15 @@ void setConsoleFont(int width, int height, int fontWeight) {//設定字體
     SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);// 將新的字型資訊應用到終端
 }
 
+void printWithDelay(const char* str) {
+    int i = 0;
+    while (str[i] != '\0') {
+        putchar(str[i++]);
+        fflush(stdout);
+        Sleep(3); 
+    }
+}
+
 int main(void)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// 取得標準輸出裝置的終端處理碼
@@ -632,17 +647,11 @@ int main(void)
 
     setConsoleFont(15, 30, FW_BOLD); // 設置粗字體大小 15x30
 
-    printf("\33[5m<Gobang>\n\n\n");
-    printf("Play chess on a 15*15 chessboard.\n\n");
-    printf("The black chesses are placed first, and they are placed at empty spots on the board in turn.\n\n");
-    printf("The first one to connect five or more chess pieces in any horizontal,\n vertical and diagonal direction wins.\n\n");
-    printf("Enter o16 or O16 to regret the move\n");
+    const char* englishText = "<Gobang>\n\n\nPlay chess on a 15*15 chessboard.\n\nThe black chesses are placed first, and they are placed at empty spots on the board in turn.\n\nThe first one to connect five or more chess pieces in any horizontal, vertical and \ndiagonal direction wins.\n\nEnter o16 or O16 to regret the move\n\n";
+    const char* chineseText = "<五子棋>\n\n\n在15*15的棋盤上進行對弈。\n\n黑子先放，輪流下在棋盤空點處。\n\n先把五枚或以上棋相連成任何橫縱斜方向為勝。\n\n輸入o16或O16可悔棋\n\n";
 
-    printf("<五子棋>\n\n\n");
-    printf("在15*15的棋盤上進行對弈。\n\n");
-    printf("黑子先放，輪流下在棋盤空點處。\n\n");
-    printf("先把五枚或以上棋相連成任何橫縱斜方向為勝。\n");
-    printf("輸入o16或O16可悔棋\33[0m\n");
+    printWithDelay(englishText);
+    printWithDelay(chineseText);
     system("pause");
 
     for (short int y = 1; y <= checkerboard_y; y++) {// 初始設置全為空
@@ -652,6 +661,9 @@ int main(void)
     }
 
     setConsoleFont(10, 20, FW_NORMAL); // 恢復字體與大小 10x20
-    show();
-    input(0);//初次進入輸入系統
+    while (1)
+    {
+        show();
+        input(0);//初次進入輸入系統
+    }
 }
