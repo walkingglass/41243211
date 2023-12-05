@@ -54,8 +54,8 @@ void show()//顯示棋盤
         }
     }
     history_wave++;
-    if (language == 0)printf("Time location:%d\n", history_wave);
-    else if (language == 1)printf("時間位置:%d\n", history_wave);
+    if (language == 0)printf("Wave:%d\n", history_wave);
+    else if (language == 1)printf("回合:%d\n", history_wave);
     if (language == 0)printf("Number of entries:%d\n", history_list);
     else if (language == 1)printf("輸入次數:%d\n", history_list);
 }
