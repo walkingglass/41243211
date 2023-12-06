@@ -15,25 +15,23 @@
 score = 0;
 
 tetris = {
-		types : [[' ', '('  ')', '{'  '}'],
-		         [' ', '   ', '   ', '  ', '           '],
-		         [' ', '   ', '     ', '   '],
-		         [' ', '   ', '    '],
-		         [' '],
-		         ['score', 'a', 'b', 'c', 'x', 'y', 'z'],
-		         ['for', 'if', 'while', 'do', 'function', 'return']
-		         ],
-		         
-		sizes : [1, 3, 1, 4, 1, 2, 8],
-		colors : ['#900', '#090', '#009', '#990', '#099', '#909', '#444'],
-		bgcolors : ['#fcc', '#cfc', '#ccf', '#ffc', '#cff', '#fcf', '#ccc'],
-		         
-		blocks : [],
-		
-		margin : 5,
-		h : 16, // in blockw
-		w : 16, // in blockw
-		blockw : 30,
+  types: [
+    [' ', ' ', ' ', ' ', ' '],
+    [' ', ' ', ' ', ' ', ' '],
+    ['1', '2', '4', '8'],
+    [' ', ' ', ' '],
+    [' '],
+    ['score', 'a', 'b', 'c', 'x', 'y', 'z'],
+    ['for', 'if', 'while', 'do', 'function', 'return']
+  ],
+  sizes: [1, 2, 3, 4, 5, 6, 7],
+  colors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000'],
+  bgcolors: ['#000', '#000', '#000', '#000', '#000', '#000', '#000'],
+  blocks: [],
+  margin: 5,
+  h: 16, // in blockw
+  w: 16, // in blockw
+  blockw: 30,
 		
 		play : function(canvasId) {
 			var scene = document.getElementById(canvasId);
