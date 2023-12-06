@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tetris Game</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById('tetrisCanvas');
+    const context = canvas.getContext('2d');
+
+    const ROWS = 20;
+    const COLUMNS = 10;
+    const BLOCK_SIZE = 30;
+
+    // Initialize the game board
+    const board = Array.from({ length: ROWS }, () => Array(COLUMNS).fill(0));
+
+    // Function to draw a square
+    function drawSquare(x, y, color) {
+      context.fillStyle = color;
+      context.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+      context.strokeStyle = "#000";
+      context.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    }
+
+    // Draw the game board
+    function drawBoard() {
+      for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLUMNS; col++) {
+          if (board[row][col]) {
+            drawSquare(col, row, board[row][col]);
+          }
+        }
+      }
+    }
+
+    // Main game loop
+    function gameLoop() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawBoard();
+      // Add your game logic here
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game loop
+    gameLoop();
+  </script>
+</body>
+</html>
