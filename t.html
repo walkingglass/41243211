@@ -29,8 +29,20 @@
     const COLUMNS = 10;
     const BLOCK_SIZE = 30;
 
-    // Initialize the game board
     const board = Array.from({ length: ROWS }, () => Array(COLUMNS).fill(0));
+
+    // Tetromino shapes
+    const tetrominos = [
+      [[1, 1, 1, 1]],
+      [[1, 1], [1, 1]],
+      [[1, 1, 1], [0, 1, 0]],
+      [[1, 1, 1], [1, 0, 0]],
+      [[1, 1, 1], [0, 0, 1]],
+    ];
+
+    let currentTetromino;
+    let currentRow = 0;
+    let currentCol = Math.floor(COLUMNS / 2) - 1;
 
     // Function to draw a square
     function drawSquare(x, y, color) {
@@ -51,16 +63,129 @@
       }
     }
 
+    // Draw the current tetromino
+    function drawTetromino() {
+      for (let row = 0; row < currentTetromino.length; row++) {
+        for (let col = 0; col < currentTetromino[row].length; col++) {
+          if (currentTetromino[row][col]) {
+            drawSquare(currentCol + col, currentRow + row, "blue");
+          }
+        }
+      }
+    }
+
+    // Check if the current tetromino can be moved
+    function canMove(direction) {
+      for (let row = 0; row < currentTetromino.length; row++) {
+        for (let col = 0; col < currentTetromino[row].length; col++) {
+          if (
+            currentTetromino[row][col] &&
+            (board[currentRow + row] && board[currentRow + row][currentCol + col + direction]) !== 0
+          ) {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+    // Move the current tetromino
+    function moveTetromino(direction) {
+      if (canMove(direction)) {
+        currentCol += direction;
+      }
+    }
+
+    // Rotate the current tetromino
+    function rotateTetromino() {
+      const newTetromino = [];
+      for (let col = 0; col < currentTetromino[0].length; col++) {
+        const newRow = currentTetromino.map((row) => row[col]).reverse();
+        newTetromino.push(newRow);
+      }
+      currentTetromino = newTetromino;
+    }
+
+    // Place the current tetromino on the board
+    function placeTetromino() {
+      for (let row = 0; row < currentTetromino.length; row++) {
+        for (let col = 0; col < currentTetromino[row].length; col++) {
+          if (currentTetromino[row][col]) {
+            board[currentRow + row][currentCol + col] = "blue";
+          }
+        }
+      }
+      checkRows();
+      spawnTetromino();
+    }
+
+    // Check for completed rows and clear them
+    function checkRows() {
+      for (let row = ROWS - 1; row >= 0; row--) {
+        if (board[row].every((block) => block !== 0)) {
+          board.splice(row, 1);
+          board.unshift(Array(COLUMNS).fill(0));
+        }
+      }
+    }
+
+    // Spawn a new random tetromino
+    function spawnTetromino() {
+      currentTetromino = tetrominos[Math.floor(Math.random() * tetrominos.length)];
+      currentRow = 0;
+      currentCol = Math.floor(COLUMNS / 2) - Math.floor(currentTetromino[0].length / 2);
+
+      // Check if the new tetromino can be spawned, otherwise it's game over
+      if (!canMove(0)) {
+        alert("Game Over!");
+        resetGame();
+      }
+    }
+
+    // Reset the game
+    function resetGame() {
+      board.forEach((row) => row.fill(0));
+      spawnTetromino();
+    }
+
+    // Handle keyboard input
+    document.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "ArrowLeft":
+          moveTetromino(-1);
+          break;
+        case "ArrowRight":
+          moveTetromino(1);
+          break;
+        case "ArrowDown":
+          if (canMove(0)) {
+            currentRow++;
+          }
+          break;
+        case "ArrowUp":
+          rotateTetromino();
+          break;
+      }
+    });
+
     // Main game loop
     function gameLoop() {
       context.clearRect(0, 0, canvas.width, canvas.height);
       drawBoard();
-      // Add your game logic here
+      drawTetromino();
+
+      // Move the tetromino down
+      if (canMove(0)) {
+        currentRow++;
+      } else {
+        placeTetromino();
+      }
 
       requestAnimationFrame(gameLoop);
     }
 
     // Start the game loop
+    resetGame();
     gameLoop();
   </script>
 </body>
