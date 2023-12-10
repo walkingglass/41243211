@@ -647,7 +647,7 @@ int main(void)
 
     setConsoleFont(15, 30, FW_BOLD); // 設置粗字體大小 15x30
 
-    const char* englishText = "<Gobang>\n\n\nPlay chess on a 15*15 chessboard.\n\nThe black chesses are placed first, and they are placed at empty spots on the board in turn.\n\nThe first one to connect five or more chess pieces in any horizontal, vertical and \ndiagonal direction wins.\n\nEnter o16 or O16 to regret the move\n\nEnter n16 or N16 and there will be a surprise\n\n";
+    const char* englishText = "<Gobang>\n\n\nPlay chess on a 15*15 chessboard.\n\nThe black chesses are placed first, and they are placed at empty spots on the board in turn.\n\nThe first one to connect five or more chess pieces in any horizontal, vertical and \ndiagonal direction wins.\n\nEnter o16 or O16 to regret the move.\n\nEnter n16 or N16 and there will be a surprise.\n\n";
     const char* chineseText = "<五子棋>\n\n\n在15*15的棋盤上進行對弈。\n\n黑子先放，輪流下在棋盤空點處。\n\n先把五枚或以上棋相連成任何橫縱斜方向為勝。\n\n輸入o16或O16可悔棋\n\n輸入n16或N16會有驚喜\n\n";
 
     printWithDelay(englishText);
