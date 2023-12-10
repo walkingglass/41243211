@@ -61,7 +61,7 @@ void show()//顯示棋盤
         printf("Wave:%d\n", history_wave);
         printf("Number of entries:");
     }
-    else if (language == 1){
+    else if (language == 1) {
         printf("回合:%d\n", history_wave);
         printf("輸入次數:");
     }
@@ -382,7 +382,7 @@ void input(int in)//輸入系統
                                     printf("\033[31m再次輸入\033[0m\n");
                                 }
                                 printf("\n");
-                                history_wave--; 
+                                history_wave--;
                                 input(1);
                             }
                         }
@@ -399,7 +399,7 @@ void input(int in)//輸入系統
                                 printf("\033[31m再次輸入\033[0m\n");
                             }
                             printf("\n");
-                            history_wave--; 
+                            history_wave--;
                             input(1);
                         }
                     }
@@ -608,10 +608,10 @@ int win(void)
     return 0;
 }
 
-void setConsoleFont(int width, int height, int fontWeight) {//設定字體
+void setConsoleFont(int width, int height, int fontWeight) {//設定字體大小與字體
 
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);  // 取得標準輸出裝置的終端處理碼
-    CONSOLE_FONT_INFOEX fontInfo;                       // 定義 CONSOLE_FONT_INFOEX 結構體，用於儲存終端字型資訊
+    CONSOLE_FONT_INFOEX fontInfo;                       // 定義 CONSOLE_FONT_INFOEX 結構，用於儲存終端字型資訊
     fontInfo.cbSize = sizeof(CONSOLE_FONT_INFOEX);      // 設定結構體的大小
     GetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);// 取得當前終端字型資訊
 
@@ -619,36 +619,36 @@ void setConsoleFont(int width, int height, int fontWeight) {//設定字體
     fontInfo.dwFontSize.X = width;
     fontInfo.dwFontSize.Y = height;
 
-    fontInfo.FontWeight = fontWeight;                   // 設定字型的粗細
-    SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);// 將新的字型資訊應用到終端
+    fontInfo.FontWeight = fontWeight;                   // 設定字體的粗細
+    SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);// 將新的字體資訊應用到終端
 }
+void DisplayMode()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// 取得標準輸出裝置的終端處理碼
 
+    CONSOLE_SCREEN_BUFFER_INFO csbi;// 獲取終端窗口信息
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+    SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, 0);// 切換到全螢幕模式
+
+}
 void printWithDelay(const char* str) {
-    int i = 0;
-    while (str[i] != '\0') {
-        putchar(str[i++]);
-        fflush(stdout);
-        Sleep(3); 
+    int i = 0;  
+    while (str[i] != '\0') {  
+        putchar(str[i++]);  // 印出字符並遞增計數器
+        fflush(stdout);  // 刷新輸出緩衝區
+        Sleep(3);  
     }
 }
 
 int main(void)
 {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// 取得標準輸出裝置的終端處理碼
-
-
-    CONSOLE_SCREEN_BUFFER_INFO csbi;// 獲取終端窗口信息
-    GetConsoleScreenBufferInfo(hConsole, &csbi);
-
-    SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, 0);// 切换到全螢幕模式
-
-    system("cls");//清除終端
-
+    DisplayMode();
 
     setConsoleFont(15, 30, FW_BOLD); // 設置粗字體大小 15x30
 
-    const char* englishText = "<Gobang>\n\n\nPlay chess on a 15*15 chessboard.\n\nThe black chesses are placed first, and they are placed at empty spots on the board in turn.\n\nThe first one to connect five or more chess pieces in any horizontal, vertical and \ndiagonal direction wins.\n\nEnter o16 or O16 to regret the move\n\n";
-    const char* chineseText = "<五子棋>\n\n\n在15*15的棋盤上進行對弈。\n\n黑子先放，輪流下在棋盤空點處。\n\n先把五枚或以上棋相連成任何橫縱斜方向為勝。\n\n輸入o16或O16可悔棋\n\n";
+    const char* englishText = "<Gobang>\n\n\nPlay chess on a 15*15 chessboard.\n\nThe black chesses are placed first, and they are placed at empty spots on the board in turn.\n\nThe first one to connect five or more chess pieces in any horizontal, vertical and \ndiagonal direction wins.\n\nEnter o16 or O16 to regret the move\n\nEnter n16 or N16 and there will be a surprise\n\n";
+    const char* chineseText = "<五子棋>\n\n\n在15*15的棋盤上進行對弈。\n\n黑子先放，輪流下在棋盤空點處。\n\n先把五枚或以上棋相連成任何橫縱斜方向為勝。\n\n輸入o16或O16可悔棋\n\n輸入n16或N16會有驚喜\n\n";
 
     printWithDelay(englishText);
     printWithDelay(chineseText);
