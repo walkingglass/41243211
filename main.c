@@ -661,7 +661,7 @@ int main(void)
     }
 
     setConsoleFont(10, 20, FW_NORMAL); // 恢復字體與大小 10x20
-    while (1)
+    while (Win==0)
     {
         show();
         input(0);//初次進入輸入系統
