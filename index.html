@@ -20,27 +20,56 @@
             font-size: 16px;
         }
     </style>
+    
 </head>
 
 <body>
     <h1 style="font-weight: extra-bold; font-size: 36px;">題目:五子棋</h1>
 
-    <h2>介紹</h2>
-    <p>
-        規則:<br>
-        在15*15的棋盤上進行對弈。<br>
-        黑子先放，輪流下在棋盤空點處。<br>
-        先把五枚或以上棋相連成任何橫縱斜方向為勝。<br>
-        輸入o16或O16可悔棋<br>
-        輸入n16或N16會有驚喜<br>
-    </p>
+    <br><br><br>
+    <h2>➜介紹</h2><hr>
+        <p>
+            規則:<br>
+            在15*15的棋盤上進行對弈。<br>
+            黑子先放，輪流下在棋盤空點處。<br>
+            先把五枚或以上棋相連成任何橫縱斜方向為勝。<br>
+            輸入o16或O16可悔棋<br>
+            輸入n16或N16會有驚喜<br>
+        </p>
 
-    <h2>功能條列說明</h2>
-    <h2>程式結構圖</h2>
-    <h2>流程圖</h2>
-    <img src="https://raw.githubusercontent.com/walkingglass/Gobang_41243211/main/%E5%9C%96/%E4%B8%BB%E7%B5%90%E6%A7%8B.drawio.png" alt="Gobang 图片">
+    <br><br><br>
+    <h2>➜功能條列說明</h2><hr>
+    <br><br><br>
+    <h2>➜程式結構圖</h2><hr>
+        <p style="font-size: 24px">主要變數和定義：</p>
+        <p>checkerboard_x 和 checkerboard_y 分別定義了棋盤的寬度和高度。</p>
+        <p>history_list_max 定義了歷史紀錄的最大數量。</p>
+        <p>checkerboard 陣列儲存了當前的棋盤狀態。</p>
+        <p>checkerboard_history 陣列用於保存歷史的棋盤狀態。</p>
+        <p>player 記錄當前玩家（0: 黑，1: 白）。</p>
+        <p>letter 儲存玩家輸入的字母位置。</p>
+        <p>number 儲存玩家輸入的數字位置。</p>
+        <p>Win 記錄是否有玩家獲勝。</p>
+        <p>history 二維陣列用於儲存輸入的歷史記錄。</p>
+        
+        <p style="font-size: 24px">主要函數：</p>
+        <p>show() 顯示目前的棋盤狀態，包括棋盤上的棋子、歷史記錄、當前回合數等。</p>
+        <p>n16() 處理使用者輸入的指令，包括顯示幫助、查看歷史、切換語言等。</p>
+        <p>input() 處理用戶下棋的輸入，包括悔棋、顯示歷史、切換語言等。</p>
+        <p>judge() 判斷是否有玩家獲勝，檢查四個方向上是否有連成四子的情況。</p>
+        <p>win() 當有玩家獲勝時顯示獲勝訊息。</p>
+        
+        <p style="font-size: 24px">主要功能：</p>
+        <p>下棋功能： 玩家根據提示輸入字母和數字，將自己的棋子放置在指定位置。</p>
+        <p>悔棋功能： 提供悔棋的功能，回到上一個步驟的棋盤狀態。</p>
+        <p>歷史紀錄： 可以查看歷史的棋盤狀態，並選擇回到指定的歷史步驟。</p>
+        <p>切換語言： 提供切換語言的選項，支援英文和中文。</p>
+        <p>顯示幫助： 提供指示的幫助訊息，讓玩家了解可用的指令。</p>
+    <br><br><br><h2>➜流程圖</h2><hr>
+    <img src="https://raw.githubusercontent.com/walkingglass/Gobang_41243211/main/%E5%9C%96/%E4%B8%BB%E7%B5%90%E6%A7%8B.drawio.png" alt="Gobang 圖片">
 
-    <h2>技術使用說明</h2>
+    <br><br><br>
+    <h2>➜技術使用說明</h2><hr>
     <p>
         <table border="2">
             <thead>
@@ -439,7 +468,8 @@
         </table>
 
     </p>
-    <h2>心得</h2>
+    <br><br><br>
+    <h2>➜心得</h2><hr>
     <p>
         從零開始寫程式不是做煎熬的，寫程式都是少少開示堆疊起來的，布景有趣還有成就感。<br>
         最煎熬的是我明明都會還檢查了無數遍還是有錯誤，一開始認為是細微的邏輯錯誤實在十分折磨人。<br>
@@ -458,7 +488,8 @@
         我覺得這次學習的經歷十分不錯，花的時間也不算太長，寫的過程也還算有趣，除了某天修改程式，當天下午就把檔案弄炸了，但是我有昨天的備份含能還原。<br>
         還不算太慘，但還是白花了我快一個小時，也還好上午才寫，下物還沒忘透，總而來說，還算不錯。<br>
     </p>
-    <h2>開發時間(含DEBUG)</h2>
+    <br><br><br>
+    <h2>➜開發時間(含DEBUG)</h2><hr>
     <p>
         <ul>
             <li>發想主題 30min</li>
@@ -488,7 +519,8 @@
         </ul>
     </p>
 
-    <h2>程式</h2>
+    <br><br><br>
+    <h2>➜程式</h2><hr>
     <p>
         <a href="https://github.com/walkingglass/Gobang_41243211/blob/main/main.c" target="_blank">Link to main.c on GitHub</a><br>
         <a href="https://github.com/walkingglass/Gobang_41243211/blob/main/index.html" target="_blank">Link to index.html on GitHub</a>
