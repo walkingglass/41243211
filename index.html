@@ -19,6 +19,25 @@
         p {
             font-size: 16px;
         }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 6px;
+        }
+
+        td:last-child {
+            padding-right: 6px; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
     
 </head>
@@ -41,32 +60,103 @@
     <h2>➜功能條列說明</h2><hr>
     <br><br><br>
     <h2>➜程式結構圖</h2><hr>
-        <p style="font-size: 24px">主要變數和定義：</p>
+
+        <p style="font-weight: bold; font-size: 24px;">主要變數和定義：</p>
         <p>checkerboard_x 和 checkerboard_y 分別定義了棋盤的寬度和高度。</p>
         <p>history_list_max 定義了歷史紀錄的最大數量。</p>
         <p>checkerboard 陣列儲存了當前的棋盤狀態。</p>
         <p>checkerboard_history 陣列用於保存歷史的棋盤狀態。</p>
-        <p>player 記錄當前玩家（0: 黑，1: 白）。</p>
+        <p>player 記錄當前玩家（0: 黑  ,  1: 白  ,  2:空白  ）。</p>
         <p>letter 儲存玩家輸入的字母位置。</p>
         <p>number 儲存玩家輸入的數字位置。</p>
         <p>Win 記錄是否有玩家獲勝。</p>
         <p>history 二維陣列用於儲存輸入的歷史記錄。</p>
-        
-        <p style="font-size: 24px">主要函數：</p>
+
+        <br>
+
+        <p style="font-weight: bold; font-size: 24px;">主要函數：</p>
         <p>show() 顯示目前的棋盤狀態，包括棋盤上的棋子、歷史記錄、當前回合數等。</p>
         <p>n16() 處理使用者輸入的指令，包括顯示幫助、查看歷史、切換語言等。</p>
         <p>input() 處理用戶下棋的輸入，包括悔棋、顯示歷史、切換語言等。</p>
         <p>judge() 判斷是否有玩家獲勝，檢查四個方向上是否有連成四子的情況。</p>
         <p>win() 當有玩家獲勝時顯示獲勝訊息。</p>
-        
-        <p style="font-size: 24px">主要功能：</p>
+
+        <br>
+
+        <p style="font-weight: bold; font-size: 24px;">指令功能：</p>
         <p>下棋功能： 玩家根據提示輸入字母和數字，將自己的棋子放置在指定位置。</p>
         <p>悔棋功能： 提供悔棋的功能，回到上一個步驟的棋盤狀態。</p>
         <p>歷史紀錄： 可以查看歷史的棋盤狀態，並選擇回到指定的歷史步驟。</p>
         <p>切換語言： 提供切換語言的選項，支援英文和中文。</p>
         <p>顯示幫助： 提供指示的幫助訊息，讓玩家了解可用的指令。</p>
-    <br><br><br><h2>➜流程圖</h2><hr>
-    <img src="https://raw.githubusercontent.com/walkingglass/Gobang_41243211/main/%E5%9C%96/%E4%B8%BB%E7%B5%90%E6%A7%8B.drawio.png" alt="Gobang 圖片">
+
+        <br>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="3" style="font-weight: bold; font-size: 24px;">詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>縮寫指令</td>
+                    <td>完整指令</td>
+                    <td>意思</td>
+                </tr>
+                <tr>
+                    <td>e+0</td>
+                    <td>exit+0</td>
+                    <td>0離開命令 1離開遊戲</td>
+                </tr>
+                <tr>
+                    <td>H+0</td>
+                    <td>help+0</td>
+                    <td>幫助</td>
+                </tr>
+                <tr>
+                    <td>h+0</td>
+                    <td>history+0</td>
+                    <td>列出全部歷史棋盤紀錄</td>
+                </tr>
+                <tr>
+                    <td>h+number</td>
+                    <td>history+number</td>
+                    <td>傳送至歷史有紀錄的指定棋盤</td>
+                </tr>
+                <tr>
+                    <td>t+0</td>
+                    <td>time+0</td>
+                    <td>列出全部歷史棋盤紀錄</td>
+                </tr>
+                <tr>
+                    <td>t+number</td>
+                    <td>time+number[number>1]</td>
+                    <td>傳送至歷史有紀錄的指定棋盤</td>
+                </tr>
+                <tr>
+                    <td>l+0</td>
+                    <td>language+0</td>
+                    <td>0英文 1中文</td>
+                </tr>
+                <tr>
+                    <td>c+0</td>
+                    <td>clear+0</td>
+                    <td>清除命令</td>
+                </tr>
+                <tr>
+                    <td>r+number</td>
+                    <td>rainbow+number</td>
+                    <td>彩虹(數值給0~6)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+
+    <br><br><br>
+    <h2>➜流程圖</h2><hr>
+    <img src="https://raw.githubusercontent.com/walkingglass/Gobang_41243211/main/picture/main_structure.drawio.png" alt="Gobang 主結構圖片">
 
     <br><br><br>
     <h2>➜技術使用說明</h2><hr>
@@ -74,8 +164,8 @@
         <table border="2">
             <thead>
                 <tr>
-                    <th style="font-size: 24px">程式</th>
-                    <th style="font-size: 24px">介紹</th>
+                    <th style="font-size: 26px">程式</th>
+                    <th style="font-size: 26px">介紹</th>
                 </tr>
             </thead>
             <tbody>
@@ -154,7 +244,7 @@
 
                 <tr>
                     <td>fflush(stdout)</td>
-                    <td>刷新輸出緩衝區</td>
+                    <td>刷新輸出衝撞區</td>
                 </tr>
 
                 <tr>
