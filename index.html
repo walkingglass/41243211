@@ -52,6 +52,15 @@
 </head>
 
 <body>
+    <p id="dynamicContent">現在時間為</p>
+
+    <script>
+        // 使用JavaScript每秒更新內容
+        setInterval(function() {
+            var dynamicContentElement = document.getElementById('dynamicContent');
+            dynamicContentElement.innerHTML = '現在時間為：' + new Date().toLocaleTimeString();
+        }, 1000); // 1000毫秒等於1秒
+    </script>
     <h1 style="font-weight: extra-bold; font-size: 36px;">題目:五子棋</h1>
 
     <br><br><br>
