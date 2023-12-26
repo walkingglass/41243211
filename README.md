@@ -1,4 +1,5 @@
-#五子棋
+# **五子棋**
 
-<h1 style = font-size:15px>導向index.html網頁連結:<a href="https://walkingglass.github.io/Gobang_41243211/">index.html</a></h1>
-<h1 style = font-size:15px>下載執行檔:<a href="https://github.com/walkingglass/Gobang_41243211/raw/main/Gobang.exe">點我下載</a></h1>
+**導向 index.html 網頁連結：** [index.html](https://walkingglass.github.io/Gobang_41243211/)
+
+**下載執行檔：** [點我下載](https://github.com/walkingglass/Gobang_41243211/raw/main/Gobang.exe)
