@@ -627,17 +627,17 @@ void DisplayMode()
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);// 取得標準輸出裝置的終端處理碼
 
     CONSOLE_SCREEN_BUFFER_INFO csbi;// 獲取終端窗口信息
-    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    GetConsoleScreenBufferInfo(hConsole, &csbi);//以終端窗口信息標準輸出裝置螢幕
 
     SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, 0);// 切換到全螢幕模式
 
 }
 void printWithDelay(const char* str) {
-    int i = 0;  
-    while (str[i] != '\0') {  
+    int i = 0;
+    while (str[i] != '\0') {
         putchar(str[i++]);  // 印出字符並遞增計數器
         fflush(stdout);  // 刷新輸出緩衝區
-        Sleep(3);  
+        Sleep(3);
     }
 }
 
@@ -661,7 +661,7 @@ int main(void)
     }
 
     setConsoleFont(10, 20, FW_NORMAL); // 恢復字體與大小 10x20
-    while (Win==0)
+    while (Win == 0)
     {
         show();
         input(0);//初次進入輸入系統
